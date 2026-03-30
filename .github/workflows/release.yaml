@@ -24,46 +24,11 @@ jobs:
     name: Release operator
     runs-on: ubuntu-latest
     steps:
-      - name: Install gettext-base
+      - name: Echo inputs
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gettext-base
-      - name: Checkout code at git ref
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.gitRef }}
-          token: ${{ secrets.KUADRANT_DEV_PAT }}
-      - name: Setup Go
-        uses: actions/setup-go@v6
-        with:
-          go-version-file: go.mod
-        id: go
-      - name: Create release branch
-        if: ${{ !startsWith(inputs.gitRef, 'release-v') }}
-        run: |
-          git checkout -b release-v${{ inputs.limitadorOperatorVersion }}
-      - name: Prepare release
-        run: |
-          make prepare-release \
-          VERSION=${{ inputs.limitadorOperatorVersion }} \
-          LIMITADOR_VERSION=${{ inputs.limitadorVersion }}
-      - name: Commit and push
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Prepared release v${{ inputs.limitadorOperatorVersion }}"
-          commit_user_name: "github-actions[bot]"
-          commit_user_email: "github-actions[bot]@users.noreply.github.com"
-          branch: release-v${{ inputs.limitadorOperatorVersion }}
-          create_branch: true
-          tagging_message: v${{ inputs.limitadorOperatorVersion }}
-          commit_options: '--signoff'
-      - name: Create release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: v${{ inputs.limitadorOperatorVersion }}
-          tag_name: v${{ inputs.limitadorOperatorVersion }}
-          body: "**This release enables installations of Limitador v${{ inputs.limitadorVersion }}**"
-          generate_release_notes: true
-          target_commitish: release-v${{ inputs.limitadorOperatorVersion }}
-          prerelease: ${{ inputs.prerelease }}
-          token: ${{ secrets.KUADRANT_DEV_PAT }}
+          echo "gitRef: ${{ inputs.gitRef }}"
+          echo "limitadorOperatorVersion: ${{ inputs.limitadorOperatorVersion }}"
+          echo "limitadorVersion: ${{ inputs.limitadorVersion }}"
+          echo "prerelease: ${{ inputs.prerelease }}"
+      - name: Sleep for 30 seconds
+        run: sleep 30
