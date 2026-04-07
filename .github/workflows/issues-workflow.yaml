@@ -19,7 +19,9 @@ jobs:
     if: (github.event.pull_request.head.repo.full_name == github.repository || github.event.issue.number != '') && (github.event_name == 'issues' || github.event.pull_request.user.login != 'dependabot[bot]')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/add-to-project@v0.5.0
-        with:
-          project-url: https://github.com/orgs/Kuadrant/projects/18
-          github-token: ${{ secrets.ADD_ISSUES_TOKEN }}
+      - name: Mock Add issue to project
+        run: |
+          echo "Mocking add issue to project"
+
+      - name: Sleep for x seconds
+        run: sleep 10
