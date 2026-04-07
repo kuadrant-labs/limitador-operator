@@ -58,11 +58,8 @@ jobs:
           tagging_message: v${{ inputs.limitadorOperatorVersion }}
           commit_options: '--signoff'
       - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: v${{ inputs.limitadorOperatorVersion }}
-          tag_name: v${{ inputs.limitadorOperatorVersion }}
-          body: "**This release enables installations of Limitador v${{ inputs.limitadorVersion }}**"
-          generate_release_notes: true
-          target_commitish: release-v${{ inputs.limitadorOperatorVersion }}
-          prerelease: ${{ inputs.prerelease }}
+        run: |
+          echo "Creating release v${{ inputs.limitadorOperatorVersion }}"
+          echo "Limitador version: ${{ inputs.limitadorVersion }}"
+          echo "Prerelease: ${{ inputs.prerelease }}"
+          sleep 10
